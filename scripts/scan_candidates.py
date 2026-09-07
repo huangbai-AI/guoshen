@@ -8,7 +8,7 @@ import re
 import unicodedata
 
 ROOT=Path(__file__).resolve().parents[1]
-TLD=r'(?:com|cn|net|org|io|ai|app|dev|edu|gov|co|me|tv|xyz|cc|top|site|tech|online|shop|store|vip|info|biz|cloud|pro|link|网站|中国|公司|网络)'
+TLD=r'(?:com|cn|net|org|io|ai|app|dev|edu|gov|co|me|tv|xyz|cc|top|site|tech|online|shop|store|vip|info|biz|cloud|pro|link|host|design|studio|tools|fun|网站|中国|公司|网络)'
 
 def normalize(text):
     s=unicodedata.normalize('NFKC',text).lower()
@@ -71,7 +71,7 @@ def scan(rows,profile):
             visual=row.get('channel') in {'screen_text','barcode'}
             statuses={p:'需结合上下文复核，非违规结论' for p in profile['default_platforms']}
             if visual and hit['kind'] in strict:
-                for p in profile['strict_visual_address_platforms']:statuses[p]='按用户要求修改；须回看原帧确认识别'
+                for p in set(profile['strict_visual_address_platforms']) & set(statuses):statuses[p]='按用户要求修改；须回看原帧确认识别'
             output.append({'evidence_index':i,**row,**hit,'platform_candidates':statuses,
                            'basis_type':'candidate_only','requires_semantic_review':True})
     # Adjacent text can spell a URL across frames/lines. Preserve component indices, do not invent raw evidence.
@@ -94,8 +94,13 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('evidence',type=Path);p.add_argument('--out',type=Path,required=True)
     p.add_argument('--profile',type=Path,default=ROOT/'references/user-profile.json')
+    p.add_argument('--platforms',nargs='+',help='仅输出指定平台注册表ID的候选')
     a=p.parse_args()
     rows=json.loads(a.evidence.read_text());profile=json.loads(a.profile.read_text())
+    if a.platforms:
+        registry=json.loads((ROOT/'rules/index.json').read_text())['platforms']
+        if set(a.platforms)-set(registry): p.error('存在未知平台')
+        profile['default_platforms']=list(dict.fromkeys(a.platforms))
     results=scan(rows,profile)
     a.out.write_text(json.dumps({'notice':'候选列表不能代替语义审查，也不能据此宣布视频无问题','candidates':results},ensure_ascii=False,indent=2))
     print(f'已找到 {len(results)} 个待复核线索')

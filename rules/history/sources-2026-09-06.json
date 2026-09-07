@@ -1,13 +1,13 @@
 {
   "checked_at": "2026-09-06",
-  "scope": "中国大陆小红书、抖音、B站、视频号；来源可用性见各条记录，不含平台内部审核模型",
+  "scope": "中国大陆 B站、小红书、抖音；非穷尽，不含内部未公开审核模型",
   "sources": [
     {
       "id": "L01",
       "title": "网络信息内容生态治理规定",
       "url": "https://www.cac.gov.cn/2019-12/20/c_1578375159509309.htm",
       "publisher": "国家网信办",
-      "scope": "四平台通用；内容生产者",
+      "scope": "三平台通用；内容生产者",
       "published_or_updated": "2019-12-20",
       "effective_date": "2020-03-01",
       "checked_at": "2026-09-06",
@@ -313,31 +313,6 @@
       "checked_at": "2026-09-06",
       "evidence_status": "行业协会转载原规则PDF",
       "locator_or_note": "来源标注、核实机制、虚假热点与不当牟利；发布前核对抖音现行版本"
-    },
-    {
-      "id": "W01",
-      "title": "微信视频号运营规范",
-      "url": "https://weixin.qq.com/cgi-bin/readtemplate?t=weixin_agreement&s=video",
-      "publisher": "腾讯微信",
-      "scope": "视频号运营；普通发布与账号行为",
-      "published_or_updated": null,
-      "effective_date": null,
-      "checked_at": "2026-09-07",
-      "evidence_status": "官方全文",
-      "locator_or_note": "2026-09-07直接取得中文全文。4.4诱导互动，4.6违法营销，4.8.3违规链接，5.3权利，5.11—5.14相关性与低质，5.15—5.20医疗，6.4生成合成与演绎标识，7.2动态更新；页面未明确本版发布或生效日。",
-      "retrieved_content_sha256": "f4c334544cab1b53f887d7f163ae4f407851e154a88331e24e21dfeacbf64ab5"
-    },
-    {
-      "id": "W02",
-      "title": "视频号助手",
-      "url": "https://channels.weixin.qq.com/",
-      "publisher": "腾讯微信",
-      "scope": "规则中心、发布功能与账号通知入口",
-      "published_or_updated": null,
-      "effective_date": null,
-      "checked_at": "2026-09-07",
-      "evidence_status": "官方入口；未登录核查账号规则",
-      "locator_or_note": "正式审核应在实际可访问的官方规则中心取得运营规范、常见违规内容概览及适用专项规则。"
     }
   ]
 }

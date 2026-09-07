@@ -1,6 +1,6 @@
 interface:
-  display_name: "视频平台审核"
-  short_description: "联合检查视频语音、字幕和画面文字，分别给出三个平台的审核风险与修改建议"
-  default_prompt: "用 $video-platform-review 检查这个视频在 B站、小红书和抖音的发布风险，标出时间点、依据和修改建议。"
+  display_name: "过审"
+  short_description: "联合视频语音、字幕和画面，按四个平台动态规则与案例定位风险、给出改法"
+  default_prompt: "用 $guoshen 检查这个视频，按目标平台给出时间点、规则依据和修改建议。"
 policy:
   allow_implicit_invocation: true

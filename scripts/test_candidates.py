@@ -10,7 +10,7 @@ for text,kind in cases:
     assert kind in [x['kind'] for x in detect(text)],text
 for text in ['版本3.14','index.html','report.mp4','今天我在上海']:
     assert not detect(text),(text,detect(text))
-profile=json.loads((Path(__file__).resolve().parents[1]/'references/user-profile.json').read_text())
+profile=json.loads((Path(__file__).resolve().parents[1]/'profiles/strict-address.json').read_text())
 r=scan([{'start':0,'end':0,'channel':'screen_text','text':'example.com'}],profile)[0]
 assert '用户要求' in r['platform_candidates']['xiaohongshu']
 assert '上下文' in r['platform_candidates']['bilibili']

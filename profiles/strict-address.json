@@ -1,5 +1,5 @@
 {
-  "profile_type": "公开中性预检；个人严格要求由额外配置覆盖",
+  "profile_type": "可选：小红书、抖音画面不保留网址、疑似网址及具体地址；不是官方普遍禁令",
   "default_platforms": [
     "xiaohongshu",
     "douyin",
@@ -7,7 +7,10 @@
     "wechat_channels"
   ],
   "default_scenario": "普通视频投稿",
-  "strict_visual_address_platforms": [],
+  "strict_visual_address_platforms": [
+    "xiaohongshu",
+    "douyin"
+  ],
   "strict_visual_categories": [
     "url",
     "suspected_url",
