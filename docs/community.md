@@ -34,4 +34,4 @@
 - 校验通过只表示结构符合要求；维护者仍需核实证据与公开授权。
 - 案例不会自动更改生效规则。规则修订继续按 [版本治理](rule-lifecycle.md) 另行复核。
 
-[案例区](../cases/README.md) · [贡献指南](../CONTRIBUTING.md) · [文档导航](README.md) · [返回首页](../README.md)
+[案例区](../cases/README.md) · [贡献指南](../.github/CONTRIBUTING.md) · [文档导航](README.md) · [返回首页](../README.md)

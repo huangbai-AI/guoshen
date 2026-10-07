@@ -19,6 +19,6 @@ python3 scripts/test_framework.py
 - 旧文档入口继续保留跳转说明，避免已有引用失效。
 - 本地模型、私人素材、中间文件和审核报告不入库；现有忽略范围见 [.gitignore](../.gitignore)。
 
-提交要求见 [贡献指南](../CONTRIBUTING.md)。自动检查配置见 [校验流程](../.github/workflows/validate.yml)。
+提交要求见 [贡献指南](../.github/CONTRIBUTING.md)。自动检查配置见 [校验流程](../.github/workflows/validate.yml)。
 
 [返回文档导航](README.md) · [返回首页](../README.md)
