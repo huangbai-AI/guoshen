@@ -4,7 +4,7 @@
 
 过审是一套开放的审核预检流程，不是永久有效的禁词表，也不连接平台内部审核系统。规则会变，案例有语境；我们把来源、时间和不确定性一起保留下来。
 
-[使用指南](docs/usage.md) · [文档导航](docs/README.md) · [规则入口](rules/README.md) · [案例区](cases/README.md) · [贡献指南](CONTRIBUTING.md)
+[使用指南](docs/usage.md) · [文档导航](docs/README.md) · [规则入口](rules/README.md) · [案例区](cases/README.md) · [共建流程](docs/community.md) · [贡献指南](CONTRIBUTING.md)
 
 ![视频、语音、字幕与画面一起检查](assets/illustrations/01-review.png)
 
@@ -43,9 +43,19 @@ git clone https://github.com/huangbai-AI/guoshen.git ~/.codex/skills/guoshen
 
 ## 案例与共建
 
-![拒审与通过案例对照，复核后更新规则](assets/illustrations/03-cases.png)
+**这是一个共建项目。大家运行技能，在各个平台拿到实际反馈后，把结果回传给助手，一起完善真实案例库。**
 
-**拒审 → 保存通知与版本 → 对照修改和重试 → 提出假设 → 人工复核 → 更新有日期的规则。** 通过、申诉成功和与既有判断相反的案例，同样有价值。
+![运行技能、获得平台反馈、匿名回传、自动提交PR，复核后进入案例库并帮助下一次审核](assets/illustrations/03-cases.png)
+
+**运行技能 → 平台反馈 → 匿名回传 → 助手自动提交 PR → 维护者复核入库 → 帮助下一次审核。**
+
+在运行技能的对话中回传通过、拒审或申诉结果，补充平台通知、日期、修改与重试记录。助手整理匿名案例、展示待公开内容；你确认有权公开并授权提交后，助手自动向本仓库创建案例修改提案（PR）。需要可用的 GitHub 登录与提交环境，具体步骤见 [共建流程](docs/community.md)。案例经维护者复核合并进入 `cases/records/`，模拟填写示例仍单独保留。
+
+可以直接说：
+
+> 这是上次视频在抖音的实际反馈。请整理匿名案例给我确认，确认后自动提交到 guoshen，完善案例库。
+
+案例帮助复核后续判断；修改规则仍需另走 [版本治理](docs/rule-lifecycle.md)，不会自动生效。
 
 - [案例区与填写说明](cases/README.md)：把事实、平台通知、AI推断和干扰因素分开。
 - [提交案例](https://github.com/huangbai-AI/guoshen/issues/new?template=case.yml)：先匿名化，上传即公开，请勿包含私人原片、联系方式或未获授权截图。
