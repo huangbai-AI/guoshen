@@ -1,5 +1,6 @@
 import copy, json, tempfile, unittest, shutil
 from pathlib import Path
+from resource_paths import resource_path
 from build_review_context import ROOT, build, assess
 from validate_framework import validate
 from scan_candidates import detect, scan
@@ -10,7 +11,7 @@ class FrameworkTests(unittest.TestCase):
             self.assertEqual({r['scope'] for r in c['rules']},{'common',platform})
     def test_candidate_platform_filter_and_host(self):
         self.assertTrue(any(x['kind']=='suspected_url' for x in detect('demo.example.host')))
-        profile=json.loads((ROOT/'profiles/strict-address.json').read_text())
+        profile=json.loads(resource_path(ROOT,'profiles/strict-address.json').read_text())
         profile['default_platforms']=['bilibili']
         result=scan([{'start':0,'end':1,'channel':'screen_text','text':'example.com'}],profile)
         self.assertEqual(set(result[0]['platform_candidates']),{'bilibili'})
@@ -20,7 +21,7 @@ class FrameworkTests(unittest.TestCase):
         self.assertEqual(build(['douyin'],'2026-09-07')['profile']['strict_visual_address_platforms'],[])
         self.assertIn('douyin',build(['douyin'],'2026-09-07',profile=ROOT/'profiles/strict-address.json')['profile']['strict_visual_address_platforms'])
     def test_dates(self):
-        r=json.loads((ROOT/'rules/common/rules.json').read_text())[0]
+        r=json.loads(resource_path(ROOT,'rules/common/rules.json').read_text())[0]
         self.assertTrue(assess(r,'2026-11-01')['uncertainties'])
         self.assertTrue(any('历史' in x for x in assess(r,'2026-08-01')['uncertainties']))
         r.update(effective_from='2026-09-01',effective_to='2026-09-30')
@@ -37,7 +38,7 @@ class FrameworkTests(unittest.TestCase):
         for mutation in ['duplicate','fake_source','synthetic_evidence']:
             with tempfile.TemporaryDirectory() as temp:
                 dst=Path(temp)/'repo'; shutil.copytree(ROOT,dst,ignore=shutil.ignore_patterns('.git','models','__pycache__'))
-                p=dst/'rules/common/rules.json'; data=json.loads(p.read_text())
+                p=resource_path(dst,'rules/common/rules.json'); data=json.loads(p.read_text())
                 if mutation=='duplicate': data.append(copy.deepcopy(data[0]))
                 elif mutation=='fake_source': data[0]['source_ids']=['MISSING']
                 else: data[0]['case_ids']=['EX-0001']

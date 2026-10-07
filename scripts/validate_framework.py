@@ -2,16 +2,18 @@
 import json
 from datetime import date
 from pathlib import Path
+from resource_paths import resource_path
 from jsonschema import Draft202012Validator, FormatChecker
 ROOT=Path(__file__).resolve().parents[1]
 def load(p): return json.loads(p.read_text())
 def validate(root=ROOT):
-    index=load(root/'rules/index.json'); sources=load(root/'references/sources.json')['sources']
+    rules_root=resource_path(root,'rules')
+    index=load(rules_root/'index.json'); sources=load(resource_path(root,'references/sources.json'))['sources']
     source_ids={s['id'] for s in sources}
     assert len(source_ids)==len(sources),'来源ID重复'
-    rules=[]; rule_paths=[('common',root/'rules'/index['common_file'])]+[(k,root/'rules'/v['rules_file']) for k,v in index['platforms'].items()]
-    rv=Draft202012Validator(load(root/'schemas/rule.schema.json'),format_checker=FormatChecker())
-    cv=Draft202012Validator(load(root/'schemas/case.schema.json'),format_checker=FormatChecker())
+    rules=[]; rule_paths=[('common',rules_root/index['common_file'])]+[(k,rules_root/v['rules_file']) for k,v in index['platforms'].items()]
+    rv=Draft202012Validator(load(resource_path(root,'schemas/rule.schema.json')),format_checker=FormatChecker())
+    cv=Draft202012Validator(load(resource_path(root,'schemas/case.schema.json')),format_checker=FormatChecker())
     for scope,path in rule_paths:
         for r in load(path):
             rv.validate(r); assert r['scope']==scope,'平台范围与文件不符'
@@ -38,7 +40,7 @@ def validate(root=ROOT):
         assert set(r['case_ids'])<=realids,'规则证据只能引用真实案例，不能引用模拟案例'
         if r['supersedes']:
             old_id,version=r['supersedes'].split('@')
-            archive=root/'rules/history'/f'{old_id}-v{version}.json'
+            archive=rules_root/'history'/f'{old_id}-v{version}.json'
             old=load(archive); rv.validate(old)
             assert old['id']==old_id and old['version']==int(version),'历史引用不符'
             assert r['id']==old_id and r['version']>old['version'],'修订版本未递增'

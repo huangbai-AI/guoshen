@@ -2,6 +2,7 @@
 import argparse, hashlib, json
 from datetime import date
 from pathlib import Path
+from resource_paths import resource_path, profile_path
 ROOT = Path(__file__).resolve().parents[1]
 SCENES = ['post', 'advertising', 'boost', 'commerce', 'course', 'live']
 def load(p): return json.loads(p.read_text())
@@ -19,11 +20,14 @@ def assess(rule, as_of):
     return dict(rule, uncertainties=notes)
 def build(platforms, as_of, scene='post', root=ROOT, profile=None):
     if scene not in SCENES: raise ValueError('未知发布场景')
-    index=load(root/'rules/index.json')
+    rules_root=resource_path(root,'rules')
+    index_path=rules_root/'index.json'
+    sources_path=resource_path(root,'references/sources.json')
+    index=load(index_path)
     unknown=set(platforms)-set(index['platforms'])
     if unknown: raise ValueError('未知平台：'+','.join(sorted(unknown)))
-    paths=[root/'rules'/index['common_file']]+[root/'rules'/index['platforms'][p]['rules_file'] for p in dict.fromkeys(platforms)]
-    sources={s['id']:s for s in load(root/'references/sources.json')['sources']}
+    paths=[rules_root/index['common_file']]+[rules_root/index['platforms'][p]['rules_file'] for p in dict.fromkeys(platforms)]
+    sources={s['id']:s for s in load(sources_path)['sources']}
     selected=[]
     for path in paths:
         for rule in load(path):
@@ -35,10 +39,10 @@ def build(platforms, as_of, scene='post', root=ROOT, profile=None):
                     if source['evidence_status'] != '官方全文':
                         item['uncertainties'].append(source['id']+'：'+source['evidence_status'])
                 selected.append(item)
-    paths += [root/'rules/index.json',root/'references/sources.json']
-    config_path=Path(profile) if profile else root/'references/user-profile.json'
+    paths += [index_path,sources_path]
+    config_path=profile_path(profile,root) if profile else resource_path(root,'references/user-profile.json')
     config=load(config_path)
-    return {'framework_version':(root/'VERSION').read_text().strip(),'ruleset_version':index['version'],'as_of':as_of,'scene':scene,'platforms':list(dict.fromkeys(platforms)),'profile':config,'profile_sha256':hashlib.sha256(config_path.read_bytes()).hexdigest(),'files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'rules':selected,'notice':'线索与规则上下文不是自动裁决；案例另按日期与场景人工选择。历史规则不全时必须注明无法还原。'}
+    return {'framework_version':resource_path(root,'VERSION').read_text().strip(),'ruleset_version':index['version'],'as_of':as_of,'scene':scene,'platforms':list(dict.fromkeys(platforms)),'profile':config,'profile_sha256':hashlib.sha256(config_path.read_bytes()).hexdigest(),'files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'rules':selected,'notice':'线索与规则上下文不是自动裁决；案例另按日期与场景人工选择。历史规则不全时必须注明无法还原。'}
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--platforms',nargs='+',required=True)

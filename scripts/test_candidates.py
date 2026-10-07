@@ -1,6 +1,7 @@
 """运行方式：python3 scripts/test_candidates.py。只用合成文本，无外部副作用。"""
 import json
 from pathlib import Path
+from resource_paths import resource_path
 from scan_candidates import detect, scan
 
 cases=[('https://example.com','url'),('example.com','suspected_url'),
@@ -10,7 +11,7 @@ for text,kind in cases:
     assert kind in [x['kind'] for x in detect(text)],text
 for text in ['版本3.14','index.html','report.mp4','今天我在上海']:
     assert not detect(text),(text,detect(text))
-profile=json.loads((Path(__file__).resolve().parents[1]/'profiles/strict-address.json').read_text())
+profile=json.loads(resource_path(Path(__file__).resolve().parents[1],'profiles/strict-address.json').read_text())
 r=scan([{'start':0,'end':0,'channel':'screen_text','text':'example.com'}],profile)[0]
 assert '用户要求' in r['platform_candidates']['xiaohongshu']
 assert '上下文' in r['platform_candidates']['bilibili']

@@ -2,7 +2,7 @@
 
 ## 联合检查视频证据
 
-![视频、语音、字幕与画面一起检查](../assets/illustrations/01-review.png)
+![视频、语音、字幕与画面一起检查](illustrations/01-review.png)
 
 语音、字幕和画面分别提取，保留原文、时间点、失败记录与检查覆盖；助手结合上下文和当次适用规则复核，输出风险定位与修改建议。支持小红书、抖音、B站、视频号，也可只选一个平台。投稿、广告、加热、带货、课程和直播分别处理。
 
@@ -10,14 +10,14 @@
 
 ## 通用规则与平台规则
 
-![通用规则与四个平台规则叠加](../assets/illustrations/02-rules.png)
+![通用规则与四个平台规则叠加](illustrations/02-rules.png)
 
 | 层级 | 内容 | 入口 |
 | --- | --- | --- |
-| 通用规则 | 违法危险、隐私、真实性、版权、广告、AI标识等58项检查问题 | [通用清单](../rules/common/checklist.md) |
-| 平台规则 | 平台社区规则、导流、官方入口与专项场景 | [小红书](../rules/platforms/xiaohongshu.md) · [抖音](../rules/platforms/douyin.md) · [B站](../rules/platforms/bilibili.md) · [视频号](../rules/platforms/wechat_channels.md) |
-| 来源与时间 | 官方正文、入口、二手资料分开；记录适用期与复核日期 | [来源台账](../references/sources.json) · [版本治理](rule-lifecycle.md) |
-| 个人要求 | 可选的更保守发布偏好，不冒充官方禁令 | [公开默认](../references/user-profile.json) · [配置说明](../profiles/README.md) |
+| 通用规则 | 违法危险、隐私、真实性、版权、广告、AI标识等58项检查问题 | [通用清单](../resources/rules/common/checklist.md) |
+| 平台规则 | 平台社区规则、导流、官方入口与专项场景 | [小红书](../resources/rules/platforms/xiaohongshu.md) · [抖音](../resources/rules/platforms/douyin.md) · [B站](../resources/rules/platforms/bilibili.md) · [视频号](../resources/rules/platforms/wechat_channels.md) |
+| 来源与时间 | 官方正文、入口、二手资料分开；记录适用期与复核日期 | [来源台账](../resources/references/sources.json) · [版本治理](rule-lifecycle.md) |
+| 个人要求 | 可选的更保守发布偏好，不冒充官方禁令 | [公开默认](../resources/references/user-profile.json) · [配置说明](../resources/profiles/README.md) |
 
 当前有26条结构化检查规则、28个来源记录。来源记录不等于28份已取得的官方全文；**视频号运营规范正文已核实，外链、直播、电商等专项仍须按场景补查**。来源缺口必须输出需复核，各条核查日期单独记录，整理仓库不会刷新旧来源的核查日期。
 

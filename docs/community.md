@@ -27,7 +27,7 @@
 
 ## 案例怎样入库
 
-- 真实反馈使用 [案例格式](../schemas/case.schema.json)，标记 `synthetic: false`，保存到 `cases/records/CASE-XXXX.json`。
+- 真实反馈使用 [案例格式](../resources/schemas/case.schema.json)，标记 `synthetic: false`，保存到 `cases/records/CASE-XXXX.json`。
 - `cases/examples/` 继续存放模拟填写示例，不能把模拟反馈当真实结果。
 - 每个平台或发布环节分别记录。事实、平台通知、AI假设、修改重试与其他影响因素分开，不凭“删掉后通过”就确认拒审原因。
 - 先检索自己的既有案例与未合并 PR；同一事件的后续反馈优先更新同一案例，避免重复提交。不能覆盖别人的记录。
