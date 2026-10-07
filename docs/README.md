@@ -5,6 +5,8 @@
 | 了解审核原理、平台规则与检查边界 | [审核流程与规则体系](overview.md) |
 | 安装技能、运行提取与候选扫描 | [使用指南](usage.md) |
 | 按证据复核并写报告 | [AI审核流程](ai-review.md) |
+| 制作红框截图、局部放大与修改定位表 | [红框截图审核表](redbox-review.md) |
+| 检查国外 AI 推广与真实/疑似网址 | [严格发布标准](strict-publishing-standard.md) |
 | 回传平台结果、自动提交匿名案例 | [共建流程](community.md) |
 | 修改规则、保留旧版与适用日期 | [规则时间与版本治理](rule-lifecycle.md) |
 | 检查改动、了解维护约定 | [开发与验证](development.md) |
