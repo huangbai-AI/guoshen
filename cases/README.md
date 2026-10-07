@@ -8,7 +8,7 @@
 
 ## 填写与提交
 
-通过 [案例表单](https://github.com/huangbai-AI/guoshen/issues/new?template=case.yml) 提交，或复制 [模拟示例](examples/EX-0001.json)，按 [案例格式](../schemas/case.schema.json) 新建 `records/CASE-0001.json` 并提 PR。编号冲突时选下一个空号；真实记录设 `synthetic: false`。
+通过 [案例表单](https://github.com/huangbai-AI/guoshen/issues/new?template=case.yml) 提交，或复制 [模拟示例](examples/EX-0001.json)，按 [案例格式](../resources/schemas/case.schema.json) 新建 `records/CASE-0001.json` 并提 PR。编号冲突时选下一个空号；真实记录设 `synthetic: false`。
 
 必须分别记录：平台与失败环节、提交日期、平台通知原文（没有写 null）、证据通道与时间、AI假设、已确认原因、每次修改和重试、其他影响因素、关联规则。日期不清时先通过问题表单说明，勿为满足格式编造日期。
 

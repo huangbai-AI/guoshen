@@ -14,3 +14,4 @@ jobs:
       - run: python scripts/validate_framework.py
       - run: python scripts/test_candidates.py
       - run: python scripts/test_framework.py
+      - run: python scripts/test_resource_paths.py
