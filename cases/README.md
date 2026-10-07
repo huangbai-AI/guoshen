@@ -2,6 +2,10 @@
 
 欢迎提交拒审、通过、申诉成功和前后结果发生变化的记录。目标是发现可复核的共性，也保留反例。当前 [examples](examples) 中5份都是模拟示例，**没有真实平台实测结论**；[records](records) 尚无真实公开案例。
 
+## 运行技能后回传
+
+大家运行技能并拿到平台实际反馈后，可以回到原对话回传结果。助手整理匿名案例并展示待公开记录；获得对该记录的公开授权后，自动向本仓库创建 PR。维护者复核合并后进入真实案例库，帮助下一次审核。操作条件与步骤见 [共建流程](../docs/community.md)。通过、拒审和申诉结果都欢迎；同一事件的后续反馈优先更新原案例。
+
 ## 填写与提交
 
 通过 [案例表单](https://github.com/huangbai-AI/guoshen/issues/new?template=case.yml) 提交，或复制 [模拟示例](examples/EX-0001.json)，按 [案例格式](../schemas/case.schema.json) 新建 `records/CASE-0001.json` 并提 PR。编号冲突时选下一个空号；真实记录设 `synthetic: false`。
