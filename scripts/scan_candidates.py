@@ -97,13 +97,13 @@ def main():
     p.add_argument('--profile',type=Path,default=ROOT/'references/user-profile.json')
     p.add_argument('--platforms',nargs='+',help='仅输出指定平台注册表ID的候选')
     a=p.parse_args()
-    rows=json.loads(a.evidence.read_text());profile=json.loads(profile_path(a.profile,ROOT).read_text())
+    rows=json.loads(a.evidence.read_text(encoding='utf-8'));profile=json.loads(profile_path(a.profile,ROOT).read_text(encoding='utf-8'))
     if a.platforms:
-        registry=json.loads(resource_path(ROOT,'rules/index.json').read_text())['platforms']
+        registry=json.loads(resource_path(ROOT,'rules/index.json').read_text(encoding='utf-8'))['platforms']
         if set(a.platforms)-set(registry): p.error('存在未知平台')
         profile['default_platforms']=list(dict.fromkeys(a.platforms))
     results=scan(rows,profile)
-    a.out.write_text(json.dumps({'notice':'候选列表不能代替语义审查，也不能据此宣布视频无问题','candidates':results},ensure_ascii=False,indent=2))
+    a.out.write_text(json.dumps({'notice':'候选列表不能代替语义审查，也不能据此宣布视频无问题','candidates':results},ensure_ascii=False,indent=2), encoding='utf-8')
     print(f'已找到 {len(results)} 个待复核线索')
 
 if __name__=='__main__':main()

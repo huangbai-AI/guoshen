@@ -5,7 +5,7 @@ from pathlib import Path
 from resource_paths import resource_path, profile_path
 ROOT = Path(__file__).resolve().parents[1]
 SCENES = ['post', 'advertising', 'boost', 'commerce', 'course', 'live']
-def load(p): return json.loads(p.read_text())
+def load(p): return json.loads(p.read_text(encoding='utf-8'))
 def assess(rule, as_of):
     date.fromisoformat(as_of)
     if rule['status'] in ['retired', 'superseded']: return None
@@ -42,7 +42,7 @@ def build(platforms, as_of, scene='post', root=ROOT, profile=None):
     paths += [index_path,sources_path]
     config_path=profile_path(profile,root) if profile else resource_path(root,'references/user-profile.json')
     config=load(config_path)
-    return {'framework_version':resource_path(root,'VERSION').read_text().strip(),'ruleset_version':index['version'],'as_of':as_of,'scene':scene,'platforms':list(dict.fromkeys(platforms)),'profile':config,'profile_sha256':hashlib.sha256(config_path.read_bytes()).hexdigest(),'files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'rules':selected,'notice':'线索与规则上下文不是自动裁决；案例另按日期与场景人工选择。历史规则不全时必须注明无法还原。'}
+    return {'framework_version':resource_path(root,'VERSION').read_text(encoding='utf-8').strip(),'ruleset_version':index['version'],'as_of':as_of,'scene':scene,'platforms':list(dict.fromkeys(platforms)),'profile':config,'profile_sha256':hashlib.sha256(config_path.read_bytes()).hexdigest(),'files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths},'rules':selected,'notice':'线索与规则上下文不是自动裁决；案例另按日期与场景人工选择。历史规则不全时必须注明无法还原。'}
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--platforms',nargs='+',required=True)
@@ -54,4 +54,4 @@ if __name__=='__main__':
     try: result=build(a.platforms,a.as_of,a.scene,profile=a.profile)
     except (ValueError,KeyError) as e: p.error(str(e))
     a.out.parent.mkdir(parents=True,exist_ok=True)
-    a.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+    a.out.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')

@@ -13,7 +13,7 @@ from validate_framework import validate
 
 def normalize_context(context):
     context = dict(context)
-    context['files'] = {key.removeprefix('resources/'): value
+    context['files'] = {key.replace('\\', '/').removeprefix('resources/'): value
                         for key, value in context['files'].items()}
     return context
 
@@ -25,7 +25,7 @@ class ResourceCompatibilityTests(unittest.TestCase):
             evidence = temp / 'evidence.json'
             evidence.write_text(json.dumps([
                 {'start': 0, 'end': 1, 'channel': 'screen_text', 'text': 'example.com'}
-            ]))
+            ]), encoding='utf-8')
             for script in ['build_review_context.py', 'scan_candidates.py']:
                 outputs = []
                 for profile in ['profiles/strict-address.json',
@@ -42,9 +42,9 @@ class ResourceCompatibilityTests(unittest.TestCase):
     def test_existing_custom_profile_is_preserved(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / 'custom.json'
-            profile = json.loads((ROOT / 'resources/profiles/strict-address.json').read_text())
+            profile = json.loads((ROOT / 'resources/profiles/strict-address.json').read_text(encoding='utf-8'))
             profile['profile_type'] = '自定义配置兼容检查'
-            path.write_text(json.dumps(profile))
+            path.write_text(json.dumps(profile), encoding='utf-8')
             original = path.read_bytes()
             self.assertEqual(build(['douyin'], '2026-09-07', profile=path)['profile'], profile)
             self.assertEqual(path.read_bytes(), original)
@@ -57,7 +57,12 @@ class ResourceCompatibilityTests(unittest.TestCase):
     def test_old_absolute_profile_through_skill_symlink(self):
         with tempfile.TemporaryDirectory() as temp:
             alias = Path(temp) / 'guoshen'
-            alias.symlink_to(ROOT, target_is_directory=True)
+            try:
+                alias.symlink_to(ROOT, target_is_directory=True)
+            except OSError as error:
+                if getattr(error, 'winerror', None) == 1314:
+                    self.skipTest('Creating symlinks requires Windows Developer Mode or elevated privileges')
+                raise
             self.assertEqual(
                 build(['douyin'], '2026-09-07', profile=alias / 'profiles/strict-address.json'),
                 build(['douyin'], '2026-09-07', profile=ROOT / 'resources/profiles/strict-address.json'))
