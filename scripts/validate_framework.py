@@ -5,7 +5,7 @@ from pathlib import Path
 from resource_paths import resource_path
 from jsonschema import Draft202012Validator, FormatChecker
 ROOT=Path(__file__).resolve().parents[1]
-def load(p): return json.loads(p.read_text())
+def load(p): return json.loads(p.read_text(encoding='utf-8'))
 def validate(root=ROOT):
     rules_root=resource_path(root,'rules')
     index=load(rules_root/'index.json'); sources=load(resource_path(root,'references/sources.json'))['sources']
