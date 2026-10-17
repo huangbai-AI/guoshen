@@ -45,8 +45,12 @@
       ]
     },
     "submitted_at": {
-      "type": "string",
-      "format": "date"
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "description": "实际投稿日期；未知为null，不以收录日期代填。"
     },
     "privacy": {
       "type": "object",
@@ -162,6 +166,30 @@
       "items": {
         "type": "string"
       }
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date",
+      "description": "案例收录日期，与实际投稿日期分开。"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "submitted_at": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "submitted_at"
+        ]
+      },
+      "then": {
+        "required": [
+          "recorded_at"
+        ]
+      }
+    }
+  ]
 }
