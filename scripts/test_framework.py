@@ -87,5 +87,22 @@ class FrameworkTests(unittest.TestCase):
                 p.write_text(json.dumps(data), encoding='utf-8')
                 with self.assertRaises(AssertionError): validate(dst)
     def test_examples_are_not_empirical(self):
-        self.assertEqual(validate()[2],0)
+        for path in (ROOT/'cases/examples').glob('*.json'):
+            example = json.loads(path.read_text(encoding='utf-8'))
+            self.assertTrue(example['synthetic'])
+            self.assertTrue(example['id'].startswith('EX-'))
+        validate()
+
+    def test_unknown_submission_date_requires_recorded_date(self):
+        from jsonschema import Draft202012Validator, FormatChecker
+        schema = json.loads(resource_path(ROOT,'schemas/case.schema.json').read_text(encoding='utf-8'))
+        validator = Draft202012Validator(schema, format_checker=FormatChecker())
+        case = json.loads((ROOT/'cases/examples/EX-0001.json').read_text(encoding='utf-8'))
+        case['submitted_at'] = None
+        case['recorded_at'] = '2026-10-17'
+        validator.validate(case)
+        del case['recorded_at']
+        self.assertTrue(list(validator.iter_errors(case)))
+        case['recorded_at'] = '2026-99-99'
+        self.assertTrue(list(validator.iter_errors(case)))
 if __name__=='__main__': unittest.main()
